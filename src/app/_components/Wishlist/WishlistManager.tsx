@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {
   FaArrowLeft,
@@ -24,6 +23,7 @@ import {
   publishWishlistItemCount,
 } from "@/lib/navbarCountEvents";
 import { updateCachedWishlistProduct } from "@/lib/wishlistClientCache";
+import { getGuestWishlist, removeGuestWishlistProduct } from "@/lib/guestWishlist";
 
 function WishlistHeader({ count }: { count: number }) {
   return (
@@ -169,7 +169,6 @@ function WishlistSkeleton() {
 }
 
 export default function WishlistManager() {
-  const router = useRouter();
   const [products, setProducts] = useState<WishlistProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -182,7 +181,9 @@ export default function WishlistManager() {
     try {
       const result = await getWishlistAction();
       if (result.status !== "success") {
-        if (result.status === "unauthenticated") router.replace("/login");
+        if (result.status === "unauthenticated") {
+          setProducts(getGuestWishlist());
+        }
         else setError(result.message);
         return;
       }
@@ -192,7 +193,7 @@ export default function WishlistManager() {
     } finally {
       setLoading(false);
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     void loadWishlist();
@@ -222,15 +223,16 @@ export default function WishlistManager() {
     try {
       const result = await removeWishlistProductAction(product._id);
       if (result.status === "unauthenticated") {
-        router.replace("/login");
-        return;
-      }
-      if (result.status === "error") {
+        removeGuestWishlistProduct(product._id);
+        updateCachedWishlistProduct(product._id, false);
+      } else if (result.status === "error") {
         restoreProduct();
         toast.error(result.message);
         return;
       }
-      updateCachedWishlistProduct(product._id, false);
+      if (result.status === "success") {
+        updateCachedWishlistProduct(product._id, false);
+      }
       toast.success(result.message || "Removed from wishlist");
     } catch {
       restoreProduct();
@@ -253,7 +255,7 @@ export default function WishlistManager() {
         publishCartItemDelta(1);
         toast.success("message" in result && typeof result.message === "string" ? result.message : "Added to cart");
       } else if (result.status === "guest") {
-        router.replace("/login");
+        toast.info("Sign in to add items to your cart.");
       } else {
         toast.error("message" in result ? result.message : "Could not add this item to cart.");
       }

@@ -1,12 +1,14 @@
 import { FaShareNodes } from "react-icons/fa6";
 import PurchaseActions from "@/app/_actions/PurchaseActions";
 import WishlistToggle from "@/app/_components/Wishlist/WishlistToggle";
+import type { WishlistProduct } from "@/app/_types/WishlistType/WishlistType";
 
 type Props = {
   productId: string;
   price: number;
   priceAfterDiscount?: number;
   available: number;
+  product: WishlistProduct;
 };
 
 export default function PurchasePanel({
@@ -14,6 +16,7 @@ export default function PurchasePanel({
   price,
   priceAfterDiscount,
   available,
+  product,
 }: Props) {
   const hasDiscount =
     priceAfterDiscount !== undefined &&
@@ -46,6 +49,7 @@ export default function PurchasePanel({
       <div className="mt-3 flex gap-3">
         <WishlistToggle
           productId={productId}
+          product={product}
           label="Add to Wishlist"
           className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-[#E5E7EB] px-4 py-3 text-base font-medium leading-6 text-[#354152] transition-colors hover:bg-[#F8FAFB] cursor-pointer"
         />

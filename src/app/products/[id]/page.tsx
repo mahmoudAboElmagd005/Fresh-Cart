@@ -84,6 +84,7 @@ export default async function ProductDetailsPage(props: {
           {/* Price + quantity + total + buttons (client) */}
           <PurchasePanel
             productId={product._id}
+            product={product}
             price={product.price}
             priceAfterDiscount={product.priceAfterDiscount}
             available={product.quantity}

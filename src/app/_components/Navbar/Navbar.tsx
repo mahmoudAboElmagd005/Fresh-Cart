@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getNavbarCountsAction } from "@/app/_actions/navbar.actions";
 import { getGuestCart } from "@/lib/guestCart";
+import { getGuestWishlist } from "@/lib/guestWishlist";
 import {
   applyCountUpdate,
   CART_COUNT_EVENT,
@@ -766,6 +767,7 @@ export default function Navbar({
         );
         setCartCount(count);
       }
+      if (!isLoggedIn && event.key === "guestWishlist") setWishlistCount(getGuestWishlist().length);
     };
 
     let cancelled = false;
@@ -782,6 +784,7 @@ export default function Navbar({
       setCartCount(
         getGuestCart().reduce((total, item) => total + item.count, 0),
       );
+      setWishlistCount(getGuestWishlist().length);
     }
     window.addEventListener(CART_COUNT_EVENT, onCartCount);
     window.addEventListener(WISHLIST_COUNT_EVENT, onWishlistCount);

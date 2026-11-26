@@ -30,7 +30,8 @@ import { addProductToCart } from "@/app/_actions/addToCart.action";
 import { addWishlistProductAction, removeWishlistProductAction } from "@/app/_actions/wishlist.actions";
 import { addToGuestCart } from "@/lib/guestCart";
 import { publishCartItemDelta, publishWishlistItemDelta } from "@/lib/navbarCountEvents";
-import { updateCachedWishlistProduct } from "@/lib/wishlistClientCache";
+import { getCachedWishlistIds, updateCachedWishlistProduct } from "@/lib/wishlistClientCache";
+import { addGuestWishlistProduct, removeGuestWishlistProduct } from "@/lib/guestWishlist";
 import ProductImage from "@/app/_components/ProductImage/ProductImage";
 
 type View = "grid" | "list";
@@ -300,10 +301,10 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
 }
 
 function WishlistButton({
-  productId,
+  product,
   initialWishlisted,
 }: {
-  productId: string;
+  product: Product;
   initialWishlisted: boolean;
 }) {
   const router = useRouter();
@@ -311,6 +312,13 @@ function WishlistButton({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => setWishlisted(initialWishlisted), [initialWishlisted]);
+  useEffect(() => {
+    let active = true;
+    void getCachedWishlistIds().then((ids) => {
+      if (active) setWishlisted(ids.has(product._id));
+    });
+    return () => { active = false; };
+  }, [product._id]);
 
   async function toggle() {
     if (loading) return;
@@ -319,16 +327,17 @@ function WishlistButton({
     setLoading(true);
     try {
       const result = previous
-        ? await removeWishlistProductAction(productId)
-        : await addWishlistProductAction(productId);
+        ? await removeWishlistProductAction(product._id)
+        : await addWishlistProductAction(product._id);
       if (result.status === "unauthenticated") {
-        setWishlisted(previous);
-        router.push("/login");
+        if (previous) removeGuestWishlistProduct(product._id);
+        else addGuestWishlistProduct(product);
+        updateCachedWishlistProduct(product._id, !previous);
       } else if (result.status === "error") {
         setWishlisted(previous);
         toast.error(result.message);
       } else {
-        updateCachedWishlistProduct(productId, !previous);
+        updateCachedWishlistProduct(product._id, !previous);
         publishWishlistItemDelta(previous ? -1 : 1);
         toast.success(result.message);
         router.refresh();
@@ -410,7 +419,7 @@ function ProductCard({
         </Link>
         {hasDiscount && <span className="absolute left-3 top-3 z-10 rounded-sm bg-[#FA2B36] px-2 py-1 text-xs font-medium text-white">-{discount}%</span>}
         <div className="absolute right-3 top-3 z-10 flex flex-col gap-2">
-          <WishlistButton productId={product._id} initialWishlisted={wishlisted} />
+          <WishlistButton product={product} initialWishlisted={wishlisted} />
           <Link href={`/products/${product._id}`} aria-label={`View ${product.title}`} className="grid size-8 place-items-center rounded-full bg-white text-sm text-[#495565] shadow-[0_1px_3px_rgba(0,0,0,0.1)] hover:text-[#16A34A]"><FaEye aria-hidden="true" /></Link>
           <button type="button" aria-label="Compare" onClick={() => toast.info("Coming soon")} className="grid size-8 place-items-center rounded-full bg-white text-sm text-[#495565] shadow-[0_1px_3px_rgba(0,0,0,0.1)] hover:text-[#16A34A]"><FaRotate aria-hidden="true" /></button>
         </div>

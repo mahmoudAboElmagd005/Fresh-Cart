@@ -39,6 +39,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute right-3 top-3 flex flex-col gap-2">
           <WishlistToggle
             productId={product._id}
+            product={product}
             className={`${actionBtn} hover:text-red-500`}
           />
 

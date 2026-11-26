@@ -1,6 +1,7 @@
 "use client";
 
 import { getWishlistAction } from "@/app/_actions/wishlist.actions";
+import { getGuestWishlist } from "@/lib/guestWishlist";
 
 let wishlistIdsRequest: Promise<Set<string>> | undefined;
 
@@ -10,7 +11,7 @@ export function getCachedWishlistIds() {
       .then((result) =>
         result.status === "success"
           ? new Set((result.products ?? []).map((product) => product._id))
-          : new Set<string>(),
+          : new Set(getGuestWishlist().map((product) => product._id)),
       )
       .catch(() => new Set<string>());
   }

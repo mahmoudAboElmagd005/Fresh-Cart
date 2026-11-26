@@ -9,13 +9,17 @@ import {
 } from "@/app/_actions/wishlist.actions";
 import { publishWishlistItemDelta } from "@/lib/navbarCountEvents";
 import { getCachedWishlistIds, updateCachedWishlistProduct } from "@/lib/wishlistClientCache";
+import type { WishlistProduct } from "@/app/_types/WishlistType/WishlistType";
+import { addGuestWishlistProduct, removeGuestWishlistProduct } from "@/lib/guestWishlist";
 
 export default function WishlistToggle({
   productId,
+  product,
   className,
   label,
 }: {
   productId: string;
+  product: WishlistProduct;
   className: string;
   label?: string;
 }) {
@@ -49,17 +53,17 @@ export default function WishlistToggle({
         ? await removeWishlistProductAction(productId)
         : await addWishlistProductAction(productId);
       if (result.status === "unauthenticated") {
-        router.push("/login");
-        setStatus(wasAdded ? "added" : "idle");
-        return;
+        if (wasAdded) removeGuestWishlistProduct(productId);
+        else addGuestWishlistProduct(product);
+        updateCachedWishlistProduct(productId, !wasAdded);
       }
-      if (result.status === "error") {
+      else if (result.status === "error") {
         setStatus(wasAdded ? "added" : "idle");
         return;
       }
 
       setStatus(wasAdded ? "idle" : "added");
-      updateCachedWishlistProduct(productId, !wasAdded);
+      if (result.status === "success") updateCachedWishlistProduct(productId, !wasAdded);
       publishWishlistItemDelta(wasAdded ? -1 : 1);
       router.refresh();
     } catch {
