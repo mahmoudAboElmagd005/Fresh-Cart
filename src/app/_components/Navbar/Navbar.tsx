@@ -73,13 +73,13 @@ function TopBar({
             <span className="h-4 w-px bg-[#e5e7eb]" />
             {isLoggedIn ? (
               <div className="flex items-center gap-4 text-[#4a5565]">
-                <a
+                <Link
                   href="/account/settings"
                   className="flex items-center gap-1.5 transition-all hover:text-[#16A34A]"
                 >
                   <FaRegUser aria-hidden="true" />
                   {userName}
-                </a>
+                </Link>
                 <button
                   onClick={() => signOut({ redirectTo: "/login" })}
                   className="flex items-center gap-1.5 text-gray-600 hover:text-red-500 transition-colors"
@@ -102,21 +102,21 @@ function TopBar({
               </div>
             ) : (
               <div className="flex items-center gap-4 text-[#4a5565]">
-                <a
+                <Link
                   href="/login"
                   className="flex items-center gap-1.5 transition-all hover:text-[#16A34A]"
                 >
                   <FaRegUser aria-hidden="true" />
                   Sign In
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/register"
                   className="flex items-center gap-1.5 transition-all hover:text-[#16A34A]"
                 >
                   <FaUserPlus aria-hidden="true" />
                   Sign Up
-                </a>
+                </Link>
               </div>
             )}
           </div>
@@ -244,59 +244,63 @@ function AccountDropdown({
         <FaRegUserCircle aria-hidden="true" className="text-xl" />
       </button>
 
-      {isOpen && (
-        <div className="absolute right-0 top-full z-[60] w-64 pt-3">
-          <div
-            role="menu"
-            aria-label="Account menu"
-            className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_32px_rgba(16,23,39,0.16)]"
-          >
-            <div className="flex items-center gap-3 border-b border-gray-100 p-4">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#DCFCE7] text-lg text-[#16A34A]">
-                <FaRegUserCircle aria-hidden="true" />
+      <div
+        className={`absolute right-0 top-full z-[60] w-64 pt-3 transition-all duration-200 ${
+          isOpen
+            ? "visible translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-2 opacity-0"
+        }`}
+      >
+        <div
+          role="menu"
+          aria-label="Account menu"
+          className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_32px_rgba(16,23,39,0.16)]"
+        >
+          <div className="flex items-center gap-3 border-b border-gray-100 p-4">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#DCFCE7] text-lg text-[#16A34A]">
+              <FaRegUserCircle aria-hidden="true" />
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold text-[#354152]">
+                {userName || "My Account"}
               </span>
-              <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-[#354152]">
-                  {userName || "My Account"}
-                </span>
-                <span className="mt-0.5 block truncate text-xs text-[#99A1AE]">
-                  {userEmail || ""}
-                </span>
+              <span className="mt-0.5 block truncate text-xs text-[#99A1AE]">
+                {userEmail || ""}
               </span>
-            </div>
+            </span>
+          </div>
 
-            <nav aria-label="Account" className="py-2">
-              {menuLinks.map(({ href, label, Icon }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  role="menuitem"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#495565] transition-colors hover:bg-[#F8FAFB] hover:text-[#16A34A]"
-                >
-                  <Icon aria-hidden="true" className="w-4 text-[#99A1AE]" />
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-            <div className="border-t border-gray-100 p-2">
-              <button
-                type="button"
+          <nav aria-label="Account" className="py-2">
+            {menuLinks.map(({ href, label, Icon }) => (
+              <Link
+                key={label}
+                href={href}
                 role="menuitem"
-                onClick={() => {
-                  setIsOpen(false);
-                  void signOut({ redirectTo: "/login" });
-                }}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#495565] transition-colors hover:bg-[#F8FAFB] hover:text-[#16A34A]"
               >
-                <FaRightFromBracket aria-hidden="true" className="w-4" />
-                Sign Out
-              </button>
-            </div>
+                <Icon aria-hidden="true" className="w-4 text-[#99A1AE]" />
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="border-t border-gray-100 p-2">
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setIsOpen(false);
+                void signOut({ redirectTo: "/login" });
+              }}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50"
+            >
+              <FaRightFromBracket aria-hidden="true" className="w-4" />
+              Sign Out
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -320,13 +324,13 @@ function DesktopBar({
     <div className="font-exo sticky top-0 z-40 hidden bg-white shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] lg:block">
       <div className="container mx-auto">
         <div className="flex h-[72px] items-center gap-8 ">
-          <a href="/" aria-label="FreshCart home" className="shrink-0">
+          <Link href="/" aria-label="FreshCart home" className="shrink-0">
             <img
               src="/figma-navbar/logo-desktop.svg"
               alt="FreshCart"
               className="h-8 w-[165.16px]"
             />
-          </a>
+          </Link>
 
           <SearchForm />
 
@@ -451,17 +455,6 @@ function MobileBar({
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
 
-  // قفل السكرول لما الـ drawer مفتوح + إغلاق بزرار Escape
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [isOpen]);
-
   return (
     <div className="fixed inset-x-0 bg-white z-50  font-exo lg:hidden">
       {/* الشريط العلوي */}
@@ -488,7 +481,11 @@ function MobileBar({
               className="
             svg-inline--fa fa-heart text-xl  group-hover:text-primary-600 transition-colors"
             />
-            <CountBadge count={wishlistCount} loading={countsLoading} />
+            <CountBadge
+              count={wishlistCount}
+              loading={countsLoading}
+              bg="bg-red-500"
+            />
           </Link>
           <Link
             href="/cart"
@@ -530,8 +527,8 @@ function MobileBar({
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
-        aria-hidden={!isOpen}
-        className={`fixed right-0 top-0 z-50 flex h-full w-[320px] max-w-[85vw] flex-col overflow-y-auto bg-white shadow-2xl transition-all duration-300 ${
+        inert={!isOpen}
+        className={`fixed right-0 top-0 z-50 flex h-full w-[320px] max-w-[85vw] flex-col overflow-y-auto bg-white shadow-2xl will-change-transform transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${
           isOpen
             ? "visible translate-x-0 opacity-100"
             : "invisible translate-x-full opacity-0"
@@ -617,7 +614,7 @@ function MobileBar({
               />
             ) : (
               wishlistCount > 0 && (
-                <span className="text-sm font-bold text-[#16A34A]">
+                <span className="text-sm font-bold text-red-500">
                   {wishlistCount}
                 </span>
               )
@@ -651,7 +648,7 @@ function MobileBar({
 
         {isLoggedIn ? (
           <div className="p-4">
-            <a
+            <Link
               className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#f0fdf4] transition-colors"
               href="/account/settings"
             >
@@ -671,7 +668,7 @@ function MobileBar({
                 </svg>
               </div>
               <span className="font-medium text-gray-700">{userName}</span>
-            </a>
+            </Link>
             <button
               onClick={() => signOut({ redirectTo: "/login" })}
               className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors w-full text-left"
@@ -767,7 +764,8 @@ export default function Navbar({
         );
         setCartCount(count);
       }
-      if (!isLoggedIn && event.key === "guestWishlist") setWishlistCount(getGuestWishlist().length);
+      if (!isLoggedIn && event.key === "guestWishlist")
+        setWishlistCount(getGuestWishlist().length);
     };
 
     let cancelled = false;
