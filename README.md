@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🛒 FreshCart
 
-First, run the development server:
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=16A34A&center=true&vCenter=true&width=500&lines=FreshCart;Shop+Smart.+Shop+Fresh.;Next.js+%2B+TypeScript+E-Commerce+Application" alt="Typing SVG" />
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Live Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<div align="center">
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[**👉 Visit Live Demo Here**](https://fresh-cart-kappa-ten.vercel.app/)
 
-## Learn More
+</div>
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📋 Project Description
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**FreshCart** is a full-featured e-commerce web application built with Next.js and TypeScript.
 
-## Deploy on Vercel
+The project provides a complete online shopping experience: browsing products by category and brand, viewing product details, adding items to the cart and wishlist, creating an account, and managing orders and account settings.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application communicates with a REST API to fetch and update real data, and it was built as the **final project** of my Front-End development course.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## ✨ Features
+
+* 🔐 **Authentication** - Register and log in with form validation
+* 🛡️ **Protected Routes** - Cart, orders, and account pages are only accessible to logged-in users
+* 🏠 **Home Page** - Hero slider, promo banners, deals of the day, and new arrivals
+* 🛍️ **Products** - Browse all products with images, prices, ratings, and discount badges
+* 🔍 **Product Details** - Open a single product with full information
+* 🗂️ **Categories** - Browse products by category (Electronics, Fashion, Beauty & Health, Mobiles, and more)
+* 🏷️ **Brands** - Explore products by brand
+* 🛒 **Shopping Cart** - Add, remove, and update product quantities
+* ❤️ **Wishlist** - Save favorite products to view later
+* 📦 **Order History** - Track your previous orders
+* 👤 **Account Settings** - Manage your account information
+* 📬 **Newsletter** - Subscribe to receive offers and updates
+* ⏳ **Loading States** - Loading indicators while fetching data
+* ❌ **Error Handling** - Clear feedback for API errors
+* 📄 **Support Pages** - Contact, Help Center, Shipping, Returns, Privacy Policy, Terms, and Cookie Policy
+* 📱 **Responsive Interface** - Designed to work across mobile, tablet, and desktop screens
+
+---
+
+## 🛠️ Technologies Used
+
+<div align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+</div>
+
+### Core Technologies
+
+* **Next.js** - Routing, server rendering, and image optimization
+* **React** - UI components and state management
+* **TypeScript** - Type safety across the whole project
+* **Tailwind CSS** - Utility-first styling and responsive layouts
+
+### Libraries
+
+* **Swiper** - Hero slider on the home page
+* **Axios / Fetch** - HTTP requests to the API
+
+### API
+
+* **Route E-Commerce API** (`ecommerce.routemisr.com`) - Authentication, products, categories, brands, cart, wishlist, and orders
+
+### Deployment
+
+* **Vercel** - Hosting and continuous deployment
+
+---
+
+## 🚀 Getting Started
+
+
+## 🔗 Repository
+
+<div align="center">
+
+[**📦 View Source Code on GitHub**](https://github.com/mahmoudAboElmagd005/Fresh-Cart)
+
+</div>
+
+---
+
+## 👨‍💻 Author
+
+**Mahmoud Abo El-Magd**
+
+GitHub
+https://github.com/mahmoudAboElmagd005
+
+</div>
