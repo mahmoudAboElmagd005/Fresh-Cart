@@ -1,0 +1,20 @@
+{
+  "cSpell.words": ["dsssssssssssssssssssssssssssssss"],
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true
+  },
+  "files.exclude": {
+    "**/.next": true
+  }
+}
